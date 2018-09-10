@@ -14,7 +14,7 @@ suppressMessages(library(kableExtra)) # Tablas en HTML para interactuar
 # Cargar el token de QUANDL
 Quandl.api_key("Akx24vw1x3ziugMZeuY3")
 
-# Funcion para descagar precios (aquí pones dentro de las llaves la función)
+# Funcion para descagar precios (aquÃ­ pones dentro de las llaves la funciÃ³n)
 Bajar_Precios <- function(Columns, Tickers, Fecha_In, Fecha_Fn) {
   
   # Peticion para descargar precios
@@ -23,13 +23,10 @@ Bajar_Precios <- function(Columns, Tickers, Fecha_In, Fecha_Fn) {
   return(Datos)
 }
 
-#El error era poner code = "wiki/prices", entonces borre lo que decia code.
-#Tambien hay que checar bien la API key.
 
-#Aqui creamos los argumentos que se necesitan para la funcion que creamos
-tk <- c("TSLA", "BBY","HD") #tickers #con la 'c' le dices que es un vector
-cs <- c("date","adj_close") #columnas que necesitas
-fs <- c("2015-08-01","2016-08-01") #fechas a obtener
+tk <- c("TSLA", "BBY","HD") 
+cs <- c("date","adj_close") 
+fs <- c("2015-08-01","2016-08-01") 
 
 #Descargamos precios
 Datos <- list() #primero creamos el vector 'Datos' vacio
@@ -51,16 +48,9 @@ for(i in 1:length(tk)){
   }
 
 Rends <- xts(x = cbind(Datos[[1]]$adj_close_r, Datos[[2]]$adj_close_r, Datos[[3]]$adj_close_r),
-             order.by = Datos[[1]]$date)[-1] #el -1 quita el ultimo valor, el rendimiento 0.
-
-#aqui solo esta creando una lista, una lista con los rendimientos de los tres activos
-#y los esta ordenando por el indice de la fecha. es por eso que es objeto 'xts'
+             order.by = Datos[[1]]$date)[-1] #el -1 quita el ultimo valor
 
 names(Rends) <- tk
-#aqui otra vez le cambiamos los nombres de las columnas por los tickers.
-
-#el tipo de objeto que arroja Rends o Datos es un tipo de objeto 'xts'.
-#un xts es como una DataFrame pero sus indices son las fechas siempre.
 
 Port1<- portfolio.spec(assets = tk)
 
