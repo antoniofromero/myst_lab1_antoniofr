@@ -12,8 +12,9 @@ suppressMessages(library(ROI)) # Optimizacion para portafolio
 suppressMessages(library(kableExtra)) # Tablas en HTML para interactuar
 
 # Cargar el token de QUANDL
-Quandl.api_key("Akx24vw1x3ziugMZeuY3")
+Quandl.api_key("KAxj_3rAYHS5kZnBoSf2")
 
+Capital_Inicial <- 10000
 # Funcion para descagar precios (aquí pones dentro de las llaves la función)
 Bajar_Precios <- function(Columns, Tickers, Fecha_In, Fecha_Fn) {
   
@@ -24,7 +25,7 @@ Bajar_Precios <- function(Columns, Tickers, Fecha_In, Fecha_Fn) {
 }
 
 
-tk <- c("TSLA", "BBY","HD") 
+tk <- c("DIS", "GS","PFE") #Disney, Goldman Sachs, Pfizer
 cs <- c("date","adj_close") 
 fs <- c("2015-08-01","2016-08-01") 
 
