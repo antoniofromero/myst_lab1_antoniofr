@@ -162,3 +162,60 @@ Historico$R_Precio <- round(c(0, diff(log(Historico$Precio))),4)
 for(i in 1:length(Historico$Date)){
   Historico$R_Activo[i] <- round((Historico$Precio[i]/Historico$Precio[1])-1,2)
 }
+
+
+# -- ------------------------------------ -- #
+# -- ------------------------------------ -- #
+# -- ------------------------------------ -- #
+
+for(i in 2:length(Historico$Date)){
+ 
+  if(Historico$R_Precio[i] <= Regla0_R){ # Generar Señal
+    
+    # Establecer capital actual, inicialmente, igual al capital anterior
+    Historico$Capital[i] <- Historico$Capital[i-1]
+    
+    if(Historico$Capital[i] > 0){ # Si hay capital
+      
+      if(Historico$Capital[i]*Regla2_P > Historico$Precio[i]){ # Si Capital minimo
+        
+        Historico$Operacion[i] <- "Compra"
+        Historico$Titulos[i]   <- (Historico$Capital[i]*Regla2_P)%/%Historico$Precio[i]
+        
+        compra <- Historico$Precio[i]*Historico$Titulos[i]  
+        Historico$Comisiones[i] <- compra*Regla4_C
+        
+        Historico$Titulos_a[i] <- Historico$Titulos[i-1]+Historico$Titulos[i]
+        Historico$Mensaje[i] <- "Compra exitosa"
+        
+      }
+      
+    }
+    else { # No hubo capital
+      
+      
+    }
+    
+    
+  }
+  else { # Sin señal
+  
+    # Señales de posiciones dentro portafolio
+    Historico$Capital[i] <- Historico$Capital[i-1]
+    Historico$Balance[i] <- Historico$Precio[i]*Historico$Titulos_a[i]#Calculo conforme se van adquiriendo titulos
+    Historico$Titulos_a[i] <- Historico$Titulos_a[i-1]+Historico$Titulos[i]#Suma de los titulos acumulados
+    Historico$R_Cuenta[i] <- Capital_Inicial + Historico$Balance[i] #Calcula el rendimiento de la cuenta en el tiempo
+    Historico$Operacion[i] <- "Mantener" #Se mantiene al no haber señal de compra 
+    Historico$Comisiones[i] <- 0 #No hay comisiones mientras no haya compras 
+    Historico$Mensaje[i] <- "Mantener posición"  
+    
+    Historico$R_Cartera[i] <- (Historico$Balance[i]+Historico$Capital[i])%/% Regla5_K #Rendimientos
+  }
+  
+}
+
+
+
+
+
+
